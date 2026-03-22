@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png', 'icons/*.svg'],
       manifest: {
-        name: 'Laundry Quest - Le Simulateur de Lessive',
-        short_name: 'Laundry Quest',
+        name: 'Laundry Simulator 2026',
+        short_name: 'Laundry Sim 2026',
         description: 'Le jeu de lessive le plus addictif au monde ! Trie, lave, sèche et plie comme un pro.',
         theme_color: '#1a1a2e',
         background_color: '#1a1a2e',

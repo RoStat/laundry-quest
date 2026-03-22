@@ -16,7 +16,7 @@ export default function DryingPhase({ level, dispatch, toast, onComplete }) {
     }))
   )
   const [itemStates, setItemStates] = useState(items.map(() => ({ squeezed: 0, flipped: false })))
-  const [micActive, setMicActive] = useState(false)
+  const [micActive, setMicActive] = useState(true) // Auto-request mic on phase start
   const completedRef = useRef(false)
 
   const addDry = useCallback((amount) => {
@@ -45,6 +45,13 @@ export default function DryingPhase({ level, dispatch, toast, onComplete }) {
   }, [addDry, dispatch, toast, level])
 
   const { isListening, blowIntensity, startListening, stopListening } = useBlowDetection(handleBlow, micActive)
+
+  // Auto-start microphone when phase loads
+  useEffect(() => {
+    if (micActive && !isListening) {
+      startListening()
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Shake to wring
   const handleShake = useCallback(() => {

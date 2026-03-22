@@ -22,87 +22,87 @@ export const CLOTHES = [
   // ============================================================
   // BLANCS (primary)
   // ============================================================
-  { id: 'w1', emoji: '👕', name: 'T-shirt blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60,
+  { id: 'w1', emoji: '👕', name: 'T-shirt blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60, color: '#ffffff',
     tip: 'Le coton blanc supporte les hautes températures. Idéal pour éliminer les bactéries !' },
-  { id: 'w2', emoji: '👔', name: 'Chemise blanche', cat: 'blanc', fabric: 'coton', maxTemp: 40,
+  { id: 'w2', emoji: '👔', name: 'Chemise blanche', cat: 'blanc', fabric: 'coton', maxTemp: 40, color: '#f8f8f8',
     tip: 'Une chemise se lave à 40°C max pour éviter le rétrécissement.' },
-  { id: 'w3', emoji: '🩳', name: 'Short blanc', cat: 'blanc', fabric: 'coton', maxTemp: 40,
+  { id: 'w3', emoji: '🩳', name: 'Short blanc', cat: 'blanc', fabric: 'coton', maxTemp: 40, color: '#ffffff',
     tip: 'Les shorts en coton se lavent facilement à 40°C.' },
-  { id: 'w4', emoji: '🧦', name: 'Chaussettes blanches', cat: 'blanc', fabric: 'coton', maxTemp: 60,
+  { id: 'w4', emoji: '🧦', name: 'Chaussettes blanches', cat: 'blanc', fabric: 'coton', maxTemp: 60, color: '#f0f0f0',
     tip: 'Les chaussettes en coton supportent 60°C. Lave-les à l\'envers !' },
-  { id: 'w5', emoji: '🩲', name: 'Sous-vêtements blancs', cat: 'blanc', fabric: 'coton', maxTemp: 60,
+  { id: 'w5', emoji: '🩲', name: 'Sous-vêtements blancs', cat: 'blanc', fabric: 'coton', maxTemp: 60, color: '#ffffff',
     tip: 'Pour l\'hygiène, les sous-vêtements en coton se lavent à 60°C.' },
-  { id: 'w6', emoji: '🧴', name: 'Torchon blanc', cat: 'blanc', fabric: 'coton', maxTemp: 90,
+  { id: 'w6', emoji: '🧴', name: 'Torchon blanc', cat: 'blanc', fabric: 'coton', maxTemp: 90, color: '#f5f5f5',
     tip: 'Les torchons de cuisine se lavent à 90°C pour tuer les bactéries !' },
-  { id: 'w7', emoji: '🩳', name: 'Caleçon blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60,
+  { id: 'w7', emoji: '🩳', name: 'Caleçon blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60, color: '#ffffff',
     tip: 'Le coton blanc peut même supporter un lavage à 90°C si très sale.' },
-  { id: 'w8', emoji: '🧻', name: 'Drap blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60,
+  { id: 'w8', emoji: '🧻', name: 'Drap blanc', cat: 'blanc', fabric: 'coton', maxTemp: 60, color: '#f8f8ff',
     tip: 'Les draps en coton se lavent à 60°C. Change-les chaque semaine !' },
 
   // ============================================================
   // COULEURS (primary)
   // ============================================================
-  { id: 'c1', emoji: '👕', name: 'T-shirt rouge', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c1', emoji: '👕', name: 'T-shirt rouge', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#e74c3c',
     tip: 'Les vêtements rouges déteignent facilement ! Toujours les séparer au début.' },
-  { id: 'c2', emoji: '👗', name: 'Robe bleue', cat: 'couleur', fabric: 'polyester', maxTemp: 40,
+  { id: 'c2', emoji: '👗', name: 'Robe bleue', cat: 'couleur', fabric: 'polyester', maxTemp: 40, color: '#3498db',
     tip: 'Le polyester sèche vite et ne se froisse pas trop.' },
-  { id: 'c3', emoji: '🧣', name: 'Écharpe verte', cat: 'couleur', fabric: 'acrylique', maxTemp: 30,
+  { id: 'c3', emoji: '🧣', name: 'Écharpe verte', cat: 'couleur', fabric: 'acrylique', maxTemp: 30, color: '#27ae60',
     tip: 'L\'acrylique est synthétique : lavage à froid recommandé.' },
-  { id: 'c4', emoji: '👕', name: 'Pull jaune', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c4', emoji: '👕', name: 'Pull jaune', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#f1c40f',
     tip: 'Les couleurs vives se préservent mieux à 40°C max.' },
-  { id: 'c5', emoji: '🩳', name: 'Short orange', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c5', emoji: '🩳', name: 'Short orange', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#e67e22',
     tip: 'Les couleurs chaudes (rouge, orange) déteignent plus que les froides.' },
-  { id: 'c6', emoji: '🧢', name: 'Casquette colorée', cat: 'couleur', fabric: 'coton', maxTemp: 30,
+  { id: 'c6', emoji: '🧢', name: 'Casquette colorée', cat: 'couleur', fabric: 'coton', maxTemp: 30, color: '#9b59b6',
     tip: 'Les casquettes se déforment en machine. Préfère le lavage à la main !' },
-  { id: 'c7', emoji: '👕', name: 'Polo vert', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c7', emoji: '👕', name: 'Polo vert', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#2ecc71',
     tip: 'Un polo se lave boutonné pour garder sa forme.' },
-  { id: 'c8', emoji: '🧦', name: 'Chaussettes à motifs', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c8', emoji: '🧦', name: 'Chaussettes à motifs', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#e74c3c',
     tip: 'Les chaussettes colorées se lavent avec les couleurs, pas les blancs !' },
-  { id: 'c9', emoji: '👕', name: 'Sweat à capuche rose', cat: 'couleur', fabric: 'coton', maxTemp: 30,
+  { id: 'c9', emoji: '👕', name: 'Sweat à capuche rose', cat: 'couleur', fabric: 'coton', maxTemp: 30, color: '#ff69b4',
     tip: 'Ferme la capuche pour éviter qu\'elle s\'emmêle en machine.' },
-  { id: 'c10', emoji: '🩳', name: 'Bermuda à fleurs', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'c10', emoji: '🩳', name: 'Bermuda à fleurs', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#e91e63',
     tip: 'Les imprimés se préservent mieux lavés à l\'envers.' },
 
   // ============================================================
   // SOMBRES (primary)
   // ============================================================
-  { id: 's1', emoji: '👖', name: 'Jean foncé', cat: 'sombre', fabric: 'denim', maxTemp: 30,
+  { id: 's1', emoji: '👖', name: 'Jean foncé', cat: 'sombre', fabric: 'denim', maxTemp: 30, color: '#1a237e',
     tip: 'Le denim se lave à froid, à l\'envers. Moins tu le laves, plus il dure !' },
-  { id: 's2', emoji: '🧥', name: 'Manteau noir', cat: 'sombre', fabric: 'polyester', maxTemp: 30,
+  { id: 's2', emoji: '🧥', name: 'Manteau noir', cat: 'sombre', fabric: 'polyester', maxTemp: 30, color: '#1a1a1a',
     tip: 'Les manteaux se lavent rarement en machine. Vérifie l\'étiquette !' },
-  { id: 's3', emoji: '👕', name: 'T-shirt noir', cat: 'sombre', fabric: 'coton', maxTemp: 40,
+  { id: 's3', emoji: '👕', name: 'T-shirt noir', cat: 'sombre', fabric: 'coton', maxTemp: 40, color: '#212121',
     tip: 'Lave les noirs à l\'envers pour éviter le blanchiment.' },
-  { id: 's4', emoji: '🧤', name: 'Gants noirs', cat: 'sombre', fabric: 'cuir', maxTemp: 0,
+  { id: 's4', emoji: '🧤', name: 'Gants noirs', cat: 'sombre', fabric: 'cuir', maxTemp: 0, color: '#1b1b1b',
     tip: '⚠️ Le cuir ne va JAMAIS en machine ! Nettoyage spécial uniquement.' },
-  { id: 's5', emoji: '🧦', name: 'Chaussettes noires', cat: 'sombre', fabric: 'coton', maxTemp: 40,
+  { id: 's5', emoji: '🧦', name: 'Chaussettes noires', cat: 'sombre', fabric: 'coton', maxTemp: 40, color: '#2d2d2d',
     tip: 'Regrouper les chaussettes par paire AVANT le lavage = gain de temps !' },
-  { id: 's6', emoji: '👕', name: 'Hoodie noir', cat: 'sombre', fabric: 'coton', maxTemp: 30,
+  { id: 's6', emoji: '👕', name: 'Hoodie noir', cat: 'sombre', fabric: 'coton', maxTemp: 30, color: '#1c1c1c',
     tip: 'Les sweats noirs se décolorent vite : programme court à 30°C max.' },
-  { id: 's7', emoji: '👖', name: 'Pantalon cargo kaki', cat: 'sombre', fabric: 'coton', maxTemp: 40,
+  { id: 's7', emoji: '👖', name: 'Pantalon cargo kaki', cat: 'sombre', fabric: 'coton', maxTemp: 40, color: '#556b2f',
     tip: 'Vide bien les poches des pantalons cargo avant le lavage !' },
-  { id: 's8', emoji: '🧥', name: 'Veste en cuir', cat: 'sombre', fabric: 'cuir', maxTemp: 0,
+  { id: 's8', emoji: '🧥', name: 'Veste en cuir', cat: 'sombre', fabric: 'cuir', maxTemp: 0, color: '#3e2723',
     tip: '⚠️ Jamais de cuir en machine ! Utilise un chiffon humide.' },
-  { id: 's9', emoji: '👕', name: 'T-shirt gris foncé', cat: 'sombre', fabric: 'coton', maxTemp: 40,
+  { id: 's9', emoji: '👕', name: 'T-shirt gris foncé', cat: 'sombre', fabric: 'coton', maxTemp: 40, color: '#424242',
     tip: 'Le gris foncé va avec les sombres pour éviter de ternir les blancs.' },
 
   // ============================================================
   // DÉLICATS (primary)
   // ============================================================
-  { id: 'd1', emoji: '👙', name: 'Maillot de bain', cat: 'delicat', fabric: 'élasthanne', maxTemp: 30,
+  { id: 'd1', emoji: '👙', name: 'Maillot de bain', cat: 'delicat', fabric: 'élasthanne', maxTemp: 30, color: '#ff6b6b',
     tip: 'L\'élasthanne se détériore à haute température. Toujours à froid !' },
-  { id: 'd2', emoji: '🧶', name: 'Pull en laine', cat: 'delicat', fabric: 'laine', maxTemp: 30,
+  { id: 'd2', emoji: '🧶', name: 'Pull en laine', cat: 'delicat', fabric: 'laine', maxTemp: 30, color: '#c19a6b',
     tip: 'La laine rétrécit à chaud ! Programme laine/délicat obligatoire.' },
-  { id: 'd3', emoji: '👗', name: 'Robe en soie', cat: 'delicat', fabric: 'soie', maxTemp: 30,
+  { id: 'd3', emoji: '👗', name: 'Robe en soie', cat: 'delicat', fabric: 'soie', maxTemp: 30, color: '#daa0e0',
     tip: 'La soie est très fragile. Lavage à la main recommandé ou filet de lavage.' },
-  { id: 'd4', emoji: '🩱', name: 'Lingerie fine', cat: 'delicat', fabric: 'dentelle', maxTemp: 30,
+  { id: 'd4', emoji: '🩱', name: 'Lingerie fine', cat: 'delicat', fabric: 'dentelle', maxTemp: 30, color: '#ffb6c1',
     tip: 'Toujours utiliser un filet de lavage pour la lingerie !' },
-  { id: 'd5', emoji: '👘', name: 'Kimono', cat: 'delicat', fabric: 'soie', maxTemp: 30,
+  { id: 'd5', emoji: '👘', name: 'Kimono', cat: 'delicat', fabric: 'soie', maxTemp: 30, color: '#c62828',
     tip: 'Les vêtements traditionnels en soie nécessitent un soin particulier.' },
-  { id: 'd6', emoji: '🧣', name: 'Écharpe en cachemire', cat: 'delicat', fabric: 'cachemire', maxTemp: 20,
+  { id: 'd6', emoji: '🧣', name: 'Écharpe en cachemire', cat: 'delicat', fabric: 'cachemire', maxTemp: 20, color: '#d4a574',
     tip: 'Le cachemire est encore plus fragile que la laine. Lavage à la main à froid !' },
-  { id: 'd7', emoji: '👗', name: 'Robe en dentelle', cat: 'delicat', fabric: 'dentelle', maxTemp: 30,
+  { id: 'd7', emoji: '👗', name: 'Robe en dentelle', cat: 'delicat', fabric: 'dentelle', maxTemp: 30, color: '#ffe4e1',
     tip: 'La dentelle se déchire facilement. Utilise un filet et programme délicat.' },
-  { id: 'd8', emoji: '🧥', name: 'Doudoune', cat: 'delicat', fabric: 'duvet', maxTemp: 30,
+  { id: 'd8', emoji: '🧥', name: 'Doudoune', cat: 'delicat', fabric: 'duvet', maxTemp: 30, color: '#4a148c',
     tip: 'La doudoune se lave en machine mais avec des balles de tennis pour garder le gonflant !' },
 
   // ============================================================
@@ -112,82 +112,82 @@ export const CLOTHES = [
   // ============================================================
 
   // Gris clair → blanc OU sombre (débat classique !)
-  { id: 'm1', emoji: '👕', name: 'T-shirt gris clair', cat: 'blanc', fabric: 'coton', maxTemp: 40,
+  { id: 'm1', emoji: '👕', name: 'T-shirt gris clair', cat: 'blanc', fabric: 'coton', maxTemp: 40, color: '#b0b0b0',
     acceptedCats: [{ id: 'sombre', score: 0.5, reason: 'Acceptable avec les sombres, mais idéalement avec les blancs !' }],
     tip: 'Le gris clair se lave généralement avec les blancs, sauf si très foncé.' },
 
   // Jean clair → couleur OU sombre
-  { id: 'm2', emoji: '👖', name: 'Jean clair', cat: 'couleur', fabric: 'denim', maxTemp: 30,
+  { id: 'm2', emoji: '👖', name: 'Jean clair', cat: 'couleur', fabric: 'denim', maxTemp: 30, color: '#6fa8dc',
     acceptedCats: [{ id: 'sombre', score: 0.4, reason: 'Possible avec les sombres, mais risque de décoloration !' }],
     tip: 'Le jean clair se lave avec les couleurs. À l\'envers et à froid !' },
 
   // Pull en laine coloré → délicat OU couleur
-  { id: 'm3', emoji: '🧶', name: 'Pull en laine coloré', cat: 'delicat', fabric: 'laine', maxTemp: 30,
+  { id: 'm3', emoji: '🧶', name: 'Pull en laine coloré', cat: 'delicat', fabric: 'laine', maxTemp: 30, color: '#e74c3c',
     acceptedCats: [{ id: 'couleur', score: 0.4, reason: 'C\'est coloré oui, mais c\'est de la LAINE ! Programme délicat obligatoire.' }],
     tip: 'Même coloré, la laine reste fragile. Toujours en mode délicat !' },
 
   // Chemise rose pâle → couleur OU blanc
-  { id: 'm4', emoji: '👔', name: 'Chemise rose pâle', cat: 'couleur', fabric: 'coton', maxTemp: 40,
+  { id: 'm4', emoji: '👔', name: 'Chemise rose pâle', cat: 'couleur', fabric: 'coton', maxTemp: 40, color: '#ffb6c1',
     acceptedCats: [{ id: 'blanc', score: 0.5, reason: 'Le rose pâle peut aller avec les blancs si le vêtement est vieux et ne déteint plus.' }],
     tip: 'Le rose pâle est une couleur ! On le met avec les couleurs claires.' },
 
   // Maillot de foot → couleur OU délicat (synthétique)
-  { id: 'm5', emoji: '⚽', name: 'Maillot de foot', cat: 'couleur', fabric: 'polyester', maxTemp: 30,
+  { id: 'm5', emoji: '⚽', name: 'Maillot de foot', cat: 'couleur', fabric: 'polyester', maxTemp: 30, color: '#1565c0',
     acceptedCats: [{ id: 'delicat', score: 0.6, reason: 'Le synthétique est sensible à la chaleur, donc délicat est un bon choix !' }],
     tip: 'Les maillots de sport synthétiques se lavent à froid pour préserver les fibres.' },
 
   // Pyjama en satin → délicat OU couleur
-  { id: 'm6', emoji: '🌙', name: 'Pyjama en satin', cat: 'delicat', fabric: 'satin', maxTemp: 30,
+  { id: 'm6', emoji: '🌙', name: 'Pyjama en satin', cat: 'delicat', fabric: 'satin', maxTemp: 30, color: '#ce93d8',
     acceptedCats: [{ id: 'couleur', score: 0.3, reason: 'C\'est coloré mais le satin est FRAGILE. Délicat = obligatoire !' }],
     tip: 'Le satin se traite comme la soie : programme délicat et filet de lavage.' },
 
   // Legging sport noir → sombre OU délicat
-  { id: 'm7', emoji: '🦵', name: 'Legging sport noir', cat: 'sombre', fabric: 'élasthanne', maxTemp: 30,
+  { id: 'm7', emoji: '🦵', name: 'Legging sport noir', cat: 'sombre', fabric: 'élasthanne', maxTemp: 30, color: '#1a1a1a',
     acceptedCats: [{ id: 'delicat', score: 0.6, reason: 'L\'élasthanne est fragile, donc délicat est un bon réflexe !' }],
     tip: 'Les leggings en élasthanne se lavent à froid pour garder leur élasticité.' },
 
   // Nappe brodée blanche → blanc OU délicat
-  { id: 'm8', emoji: '🍽️', name: 'Nappe brodée blanche', cat: 'blanc', fabric: 'lin', maxTemp: 40,
+  { id: 'm8', emoji: '🍽️', name: 'Nappe brodée blanche', cat: 'blanc', fabric: 'lin', maxTemp: 40, color: '#fafafa',
     acceptedCats: [{ id: 'delicat', score: 0.6, reason: 'La broderie est fragile ! Le programme délicat la protège mieux.' }],
     tip: 'Le lin brodé est blanc mais fragile. Programme délicat recommandé pour les broderies.' },
 
   // Drap housse foncé → sombre OU couleur
-  { id: 'm9', emoji: '🛏️', name: 'Drap housse bleu foncé', cat: 'sombre', fabric: 'coton', maxTemp: 60,
+  { id: 'm9', emoji: '🛏️', name: 'Drap housse bleu foncé', cat: 'sombre', fabric: 'coton', maxTemp: 60, color: '#1a237e',
     acceptedCats: [{ id: 'couleur', score: 0.4, reason: 'Bleu foncé = sombres. Avec les couleurs, risque de déteinture.' }],
     tip: 'Les draps foncés se lavent avec les sombres. Ils peuvent déteindre sur les clairs.' },
 
   // Veste en jean → couleur OU sombre
-  { id: 'm10', emoji: '🧥', name: 'Veste en jean', cat: 'couleur', fabric: 'denim', maxTemp: 30,
+  { id: 'm10', emoji: '🧥', name: 'Veste en jean', cat: 'couleur', fabric: 'denim', maxTemp: 30, color: '#5c6bc0',
     acceptedCats: [{ id: 'sombre', score: 0.5, reason: 'Le denim classique peut aller avec les sombres, mais attention au transfert de couleur.' }],
     tip: 'La veste en jean se lave à l\'envers, boutonnée, à 30°C max.' },
 
   // Serviette de bain blanche → blanc OU délicat si brodée
-  { id: 'm11', emoji: '🛁', name: 'Serviette éponge blanche', cat: 'blanc', fabric: 'coton éponge', maxTemp: 60,
+  { id: 'm11', emoji: '🛁', name: 'Serviette éponge blanche', cat: 'blanc', fabric: 'coton éponge', maxTemp: 60, color: '#ffffff',
     acceptedCats: [{ id: 'couleur', score: 0.3, reason: 'Blanche = avec les blancs ! Avec les couleurs, elle va rosir.' }],
     tip: 'Les serviettes blanches en éponge supportent 60°C. Lave-les seules ou avec les blancs.' },
 
   // Robe d'été imprimée → couleur OU délicat
-  { id: 'm12', emoji: '👗', name: 'Robe d\'été imprimée', cat: 'couleur', fabric: 'viscose', maxTemp: 30,
+  { id: 'm12', emoji: '👗', name: 'Robe d\'été imprimée', cat: 'couleur', fabric: 'viscose', maxTemp: 30, color: '#ff7043',
     acceptedCats: [{ id: 'delicat', score: 0.6, reason: 'La viscose est fragile quand elle est mouillée ! Délicat est un bon choix.' }],
     tip: 'La viscose perd sa forme quand elle est mouillée. Programme délicat et essorage doux.' },
 
   // Costume / veston → sombre OU délicat
-  { id: 'm13', emoji: '🤵', name: 'Veston de costume', cat: 'sombre', fabric: 'laine mélangée', maxTemp: 30,
+  { id: 'm13', emoji: '🤵', name: 'Veston de costume', cat: 'sombre', fabric: 'laine mélangée', maxTemp: 30, color: '#263238',
     acceptedCats: [{ id: 'delicat', score: 0.7, reason: 'Excellent réflexe ! Les costumes sont effectivement des pièces délicates.' }],
     tip: 'Un costume ne se lave quasiment jamais en machine. Préfère le pressing !' },
 
   // Chaussures en toile → couleur OU sombre
-  { id: 'm14', emoji: '👟', name: 'Baskets en toile', cat: 'couleur', fabric: 'toile', maxTemp: 30,
+  { id: 'm14', emoji: '👟', name: 'Baskets en toile', cat: 'couleur', fabric: 'toile', maxTemp: 30, color: '#42a5f5',
     acceptedCats: [{ id: 'sombre', score: 0.4, reason: 'Si elles sont foncées oui, mais la toile colorée va mieux avec les couleurs.' }],
     tip: 'Les baskets en toile se lavent en machine à 30°C. Retire les lacets et semelles !' },
 
   // T-shirt tie-dye → couleur (piège : il déteint !)
-  { id: 'm15', emoji: '🌀', name: 'T-shirt tie-dye', cat: 'couleur', fabric: 'coton', maxTemp: 30,
+  { id: 'm15', emoji: '🌀', name: 'T-shirt tie-dye', cat: 'couleur', fabric: 'coton', maxTemp: 30, color: 'linear-gradient(135deg, #e74c3c, #f1c40f, #3498db, #9b59b6)',
     acceptedCats: [{ id: 'delicat', score: 0.3, reason: 'Le tie-dye peut déteindre. Couleurs est mieux, mais lave-le seul les premières fois !' }],
     tip: 'Le tie-dye déteint énormément les premières lessives ! Lave-le seul ou avec du vieux linge.' },
 
   // Couverture polaire → délicat OU couleur
-  { id: 'm16', emoji: '🧸', name: 'Couverture polaire', cat: 'delicat', fabric: 'polyester polaire', maxTemp: 30,
+  { id: 'm16', emoji: '🧸', name: 'Couverture polaire', cat: 'delicat', fabric: 'polyester polaire', maxTemp: 30, color: '#8d6e63',
     acceptedCats: [{ id: 'couleur', score: 0.4, reason: 'La polaire est synthétique et fragile. Le mode délicat évite de la boullocher.' }],
     tip: 'La polaire se bouilloche en machine. Programme délicat, pas d\'adoucissant !' },
 ]

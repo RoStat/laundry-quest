@@ -81,68 +81,69 @@ export default function WashingPhase({ level, dispatch, toast, onComplete }) {
     }, 3000)
   }, [selectedSoap, selectedTemp, washClothes, dispatch, toast])
 
-  // ---- STAIN TAP MINIGAME ----
+  // ---- STAIN RUB MINIGAME ----
   const startStainGame = useCallback(() => {
+    // Create grid with stains that need rubbing (scrubCount tracks how many rubs)
+    const stainCount = 8 + level
     const grid = Array.from({ length: 15 }, (_, i) => ({
       id: i,
-      active: false,
+      active: i < stainCount,
       popped: false,
-      stain: '',
+      stain: i < stainCount ? STAINS[Math.floor(Math.random() * STAINS.length)] : '',
+      scrubCount: 0, // needs 3 rubs to remove
     }))
-    setStainGrid(grid)
+    // Shuffle active stains randomly across grid
+    const shuffled = grid.sort(() => Math.random() - 0.5).map((c, i) => ({ ...c, id: i }))
+    setStainGrid(shuffled)
     setStainRound(0)
-
-    let round = 0
-    stainIntervalRef.current = setInterval(() => {
-      if (round >= 12) {
-        clearInterval(stainIntervalRef.current)
-        // Transition to scrub phase
-        setTimeout(() => {
-          setSubPhase('scrub')
-          setScrubProgress(0)
-          setScrubTarget(STAINS[Math.floor(Math.random() * STAINS.length)])
-        }, 800)
-        return
-      }
-
-      setStainGrid(prev => {
-        const available = prev.filter(c => !c.popped && !c.active)
-        if (available.length === 0) return prev
-        const target = available[Math.floor(Math.random() * available.length)]
-        const stain = STAINS[Math.floor(Math.random() * STAINS.length)]
-
-        const next = prev.map(c =>
-          c.id === target.id ? { ...c, active: true, stain } : c
-        )
-
-        // Auto-hide after delay
-        setTimeout(() => {
-          setStainGrid(p => p.map(c =>
-            c.id === target.id && c.active && !c.popped
-              ? { ...c, active: false, stain: '' }
-              : c
-          ))
-        }, 1200 - level * 40)
-
-        return next
-      })
-
-      round++
-      setStainRound(round)
-    }, 700)
   }, [level])
 
-  const popStain = (cellId) => {
+  // Handle touch/mouse move over stain grid for rubbing
+  const stainGridRef = useRef(null)
+  const lastRubbedCell = useRef(null)
+
+  const handleStainPointerMove = useCallback((e) => {
+    e.preventDefault()
+    const touch = e.touches ? e.touches[0] : e
+    const el = document.elementFromPoint(touch.clientX, touch.clientY)
+    if (!el) return
+    const cellId = el.getAttribute('data-cell-id')
+    if (cellId == null) return
+    const id = parseInt(cellId)
+    if (id === lastRubbedCell.current) return
+    lastRubbedCell.current = id
+
     setStainGrid(prev => {
-      const cell = prev.find(c => c.id === cellId)
+      const cell = prev.find(c => c.id === id)
       if (!cell || !cell.active || cell.popped) return prev
-      dispatch({ type: 'ADD_STAIN_SCORE' })
-      dispatch({ type: 'ADD_SCORE', payload: 20 })
-      vibrateSuccess()
-      toast('+20 — Tache éliminée ! 💥', 'success')
-      return prev.map(c => c.id === cellId ? { ...c, active: false, popped: true, stain: '✨' } : c)
+      const newCount = cell.scrubCount + 1
+      if (newCount >= 3) {
+        // Stain removed!
+        dispatch({ type: 'ADD_STAIN_SCORE' })
+        dispatch({ type: 'ADD_SCORE', payload: 20 })
+        vibrate(30)
+        toast('+20 — Tache frottée ! 💥', 'success')
+
+        const updated = prev.map(c => c.id === id ? { ...c, active: false, popped: true, stain: '✨', scrubCount: newCount } : c)
+        // Check if all stains done
+        const remaining = updated.filter(c => c.active && !c.popped)
+        if (remaining.length === 0) {
+          setTimeout(() => {
+            setSubPhase('scrub')
+            setScrubProgress(0)
+            setScrubTarget(STAINS[Math.floor(Math.random() * STAINS.length)])
+          }, 800)
+        }
+        return updated
+      }
+      vibrate(10)
+      return prev.map(c => c.id === id ? { ...c, scrubCount: newCount } : c)
     })
-  }
+  }, [dispatch, toast])
+
+  const handleStainPointerEnd = useCallback(() => {
+    lastRubbedCell.current = null
+  }, [])
 
   // ---- SCRUB MINIGAME ----
   const handleScrub = useCallback((count) => {
@@ -197,7 +198,7 @@ export default function WashingPhase({ level, dispatch, toast, onComplete }) {
         <p className="text-xs text-white/40 mt-1">
           {subPhase === 'choose' && 'Choisis ta lessive et la température !'}
           {subPhase === 'washing' && 'Lavage en cours...'}
-          {subPhase === 'stains' && 'Tape sur les taches pour les éliminer !'}
+          {subPhase === 'stains' && 'Frotte les taches avec ton doigt !'}
           {subPhase === 'scrub' && '👆 Frotte l\'écran pour détacher !'}
         </p>
       </div>
@@ -302,26 +303,36 @@ export default function WashingPhase({ level, dispatch, toast, onComplete }) {
         </div>
       )}
 
-      {/* STAIN TAP MINIGAME */}
+      {/* STAIN RUB MINIGAME */}
       {subPhase === 'stains' && (
         <div className="glass p-4 text-center">
-          <h3 className="font-bangers text-lg text-[var(--neon-orange)] mb-1">💥 Éclate les taches !</h3>
-          <p className="text-xs text-white/40 mb-3">Tape rapidement sur les taches !</p>
-          <div className="grid grid-cols-5 gap-2 max-w-[320px] mx-auto">
+          <h3 className="font-bangers text-lg text-[var(--neon-orange)] mb-1">🧽 Frotte les taches !</h3>
+          <p className="text-xs text-white/40 mb-3">Glisse ton doigt sur les taches pour les enlever !</p>
+          <div
+            ref={stainGridRef}
+            className="grid grid-cols-5 gap-2 max-w-[320px] mx-auto select-none"
+            style={{ touchAction: 'none' }}
+            onTouchMove={handleStainPointerMove}
+            onTouchEnd={handleStainPointerEnd}
+            onMouseMove={(e) => e.buttons === 1 && handleStainPointerMove(e)}
+            onMouseUp={handleStainPointerEnd}
+          >
             {stainGrid.map(cell => (
-              <button
+              <div
                 key={cell.id}
-                onClick={() => popStain(cell.id)}
-                className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl cursor-pointer transition-all active:scale-90
+                data-cell-id={cell.id}
+                className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl transition-all pointer-events-none
                   ${cell.popped ? 'bg-[rgba(0,255,135,0.12)] border-2 border-[var(--neon-green)]' : ''}
-                  ${cell.active && !cell.popped ? 'bg-[rgba(255,0,110,0.12)] border-2 border-[var(--neon-pink)] scale-110' : ''}
+                  ${cell.active && !cell.popped ? 'bg-[rgba(255,0,110,0.12)] border-2 border-[var(--neon-pink)]' : ''}
                   ${!cell.active && !cell.popped ? 'bg-[var(--accent)] border-2 border-white/10' : ''}
                 `}
+                style={cell.active && !cell.popped && cell.scrubCount > 0 ? { opacity: 1 - (cell.scrubCount * 0.25) } : {}}
               >
-                {cell.stain}
-              </button>
+                <span className="pointer-events-none">{cell.stain}</span>
+              </div>
             ))}
           </div>
+          <p className="text-[0.6rem] text-white/25 mt-2">Frotte 3x chaque tache pour l'enlever</p>
         </div>
       )}
 

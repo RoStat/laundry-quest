@@ -172,7 +172,15 @@ export default function SortingPhase({ level, dispatch, toast, onComplete }) {
 
         {currentItem ? (
           <div className="text-center" style={{ animation: 'bounce 1.5s ease-in-out infinite' }}>
-            <span className="text-6xl block">{currentItem.emoji}</span>
+            <div className="relative inline-block">
+              <span className="text-6xl block">{currentItem.emoji}</span>
+              {currentItem.color && (
+                <span
+                  className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white/40 shadow-lg"
+                  style={{ background: currentItem.color }}
+                />
+              )}
+            </div>
             <span className="text-xs bg-black/50 px-3 py-1 rounded-full mt-1 inline-block">
               {currentItem.name}
             </span>

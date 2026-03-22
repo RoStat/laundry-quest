@@ -217,7 +217,7 @@ export default function App() {
           style={{ animation: 'pulse 3s ease-in-out infinite' }}
           onClick={screen === 'game' ? handleBackToMenu : undefined}
         >
-          🧺 Laundry Quest
+          🧺 Laundry Simulator 2026
         </h1>
         {screen === 'auth' && (
           <p className="text-xs text-white/30 mt-1 italic">Le simulateur de lessive le plus addictif au monde*</p>
