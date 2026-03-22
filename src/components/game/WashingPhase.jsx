@@ -321,14 +321,14 @@ export default function WashingPhase({ level, dispatch, toast, onComplete }) {
               <div
                 key={cell.id}
                 data-cell-id={cell.id}
-                className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl transition-all pointer-events-none
+                className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl transition-all
                   ${cell.popped ? 'bg-[rgba(0,255,135,0.12)] border-2 border-[var(--neon-green)]' : ''}
                   ${cell.active && !cell.popped ? 'bg-[rgba(255,0,110,0.12)] border-2 border-[var(--neon-pink)]' : ''}
                   ${!cell.active && !cell.popped ? 'bg-[var(--accent)] border-2 border-white/10' : ''}
                 `}
                 style={cell.active && !cell.popped && cell.scrubCount > 0 ? { opacity: 1 - (cell.scrubCount * 0.25) } : {}}
               >
-                <span className="pointer-events-none">{cell.stain}</span>
+                <span className="pointer-events-none select-none">{cell.stain}</span>
               </div>
             ))}
           </div>
