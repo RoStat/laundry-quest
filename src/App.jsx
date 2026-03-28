@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useGameState } from './hooks/useGameState'
 import { useAuth } from './lib/AuthContext'
 import { EVENTS } from './data/clothes'
 import { LAUNDRY_TIPS } from './data/tips'
+import { initAudio, playMusic, stopMusic, MUSIC } from './lib/soundManager'
 import { getDailyClothes, saveDailyAttempt, getDailyChallengeInfo, getTodayKey } from './lib/dailyChallenge'
 import { saveGameSession } from './lib/supabase'
 import BubblesBackground from './components/ui/BubblesBackground'
@@ -49,6 +50,40 @@ export default function App() {
   // Track if device permissions have been granted
   const [permissionsReady, setPermissionsReady] = useState(false)
   const [devicePerms, setDevicePerms] = useState(null)
+  // Audio initialized flag
+  const audioInitRef = useRef(false)
+
+  // Initialize audio on first user interaction (required by browsers)
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      if (!audioInitRef.current) {
+        initAudio()
+        audioInitRef.current = true
+        // Start music immediately after init
+        if (screen === 'auth' || screen === 'menu') {
+          playMusic(MUSIC.MENU)
+        }
+      }
+    }
+    window.addEventListener('pointerdown', handleFirstInteraction, { once: true })
+    return () => window.removeEventListener('pointerdown', handleFirstInteraction)
+  }, [screen])
+
+  // Switch music based on current screen/phase
+  useEffect(() => {
+    if (!audioInitRef.current) return
+    if (screen === 'auth' || screen === 'menu') {
+      playMusic(MUSIC.MENU)
+    } else if (screen === 'game') {
+      if (state.phase === 'results') {
+        playMusic(MUSIC.RESULTS)
+      } else if (state.phase === 'start' || state.phase === 'permissions') {
+        playMusic(MUSIC.MENU)
+      } else {
+        playMusic(MUSIC.GAME)
+      }
+    }
+  }, [screen, state.phase])
 
   // Once auth resolves, go to menu
   useEffect(() => {
