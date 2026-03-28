@@ -120,9 +120,9 @@ export default function DryingPhase({ level, dispatch, toast, onComplete }) {
   }
 
   return (
-    <div className="screen-enter">
+    <div className="screen-enter phase-fill">
       <div className="text-center mb-1">
-        <h2 className="font-bangers text-2xl text-[var(--neon-blue)]">☀️ Phase 3 — Le Séchage</h2>
+        <h2 className="font-bangers text-2xl text-[var(--neon-blue)]">☀️ Le Séchage</h2>
         <p className="text-xs text-white/40 mt-1">Souffle, secoue, ou tape pour sécher !</p>
       </div>
 

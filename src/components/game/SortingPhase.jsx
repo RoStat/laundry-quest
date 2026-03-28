@@ -144,10 +144,10 @@ export default function SortingPhase({ level, dispatch, toast, onComplete }) {
   const isMultiCat = currentItem?.acceptedCats?.length > 0
 
   return (
-    <div className="screen-enter">
+    <div className="screen-enter phase-fill">
       <div className="text-center mb-1">
-        <h2 className="font-bangers text-2xl text-[var(--neon-blue)]">🧦 Phase 1 — Le Grand Tri</h2>
-        <p className="text-xs text-white/40 mt-1">Tape sur le bon panier ! (ou incline ton tél)</p>
+        <h2 className="font-bangers text-2xl text-[var(--neon-blue)]">🧦 Le Grand Tri</h2>
+        <p className="text-xs text-white/40 mt-1">Tape sur le bon panier ou incline ton tél !</p>
       </div>
 
       <TimerBar duration={duration} running={running} onEnd={handleTimeUp} />
@@ -222,11 +222,32 @@ export default function SortingPhase({ level, dispatch, toast, onComplete }) {
         ))}
       </div>
 
-      {/* Tilt hint */}
-      <div className="text-center mt-3">
-        <p className="text-[0.6rem] text-white/20">
-          📱 Incline : ← Blancs | → Couleurs | ↑ Délicats | ↓ Sombres
-        </p>
+      {/* Tilt direction compass — always visible */}
+      <div className="relative mt-3 mx-auto w-[180px] h-[100px]">
+        {/* Up = Délicats */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 text-center">
+          <span className="text-[0.6rem] text-white/30 block">⬆️ Incliner avant</span>
+          <span className="text-[0.55rem] text-[var(--neon-blue)]/50">🦢 Délicats</span>
+        </div>
+        {/* Down = Sombres */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
+          <span className="text-[0.55rem] text-[var(--neon-blue)]/50">⬛ Sombres</span>
+          <span className="text-[0.6rem] text-white/30 block">⬇️ Incliner arrière</span>
+        </div>
+        {/* Left = Blancs */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 text-center">
+          <span className="text-[0.6rem] text-white/30">⬅️</span>
+          <span className="text-[0.55rem] text-[var(--neon-blue)]/50 block">⬜ Blancs</span>
+        </div>
+        {/* Right = Couleurs */}
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 text-center">
+          <span className="text-[0.6rem] text-white/30">➡️</span>
+          <span className="text-[0.55rem] text-[var(--neon-blue)]/50 block">🌈 Couleurs</span>
+        </div>
+        {/* Center phone icon */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg opacity-20">
+          📱
+        </div>
       </div>
     </div>
   )

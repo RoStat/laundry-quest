@@ -20,6 +20,7 @@ import FoldingPhase from './components/game/FoldingPhase'
 import IroningPhase from './components/game/IroningPhase'
 import ResultsScreen from './components/game/ResultsScreen'
 import PhaseProgress from './components/ui/PhaseProgress'
+import PermissionGate from './components/ui/PermissionGate'
 
 // ============================================================
 // FUTURE FEATURES (prepared as architecture hooks)
@@ -45,6 +46,9 @@ export default function App() {
   const [gameMode, setGameMode] = useState('free')
   // Track if auth was skipped (for skip-without-account flow)
   const [authSkipped, setAuthSkipped] = useState(false)
+  // Track if device permissions have been granted
+  const [permissionsReady, setPermissionsReady] = useState(false)
+  const [devicePerms, setDevicePerms] = useState(null)
 
   // Once auth resolves, go to menu
   useEffect(() => {
@@ -96,11 +100,25 @@ export default function App() {
     dispatch({ type: 'SET_PHASE', payload: 'start' })
   }, [dispatch])
 
-  // ---- PHASE TRANSITIONS ----
-  const handleStart = useCallback(() => {
+  // Handle permission gate completion
+  const handlePermissionsReady = useCallback((perms) => {
+    setDevicePerms(perms)
+    setPermissionsReady(true)
+    // Go straight to sorting after permissions
     dispatch({ type: 'RESET' })
     dispatch({ type: 'SET_PHASE', payload: 'sort' })
   }, [dispatch])
+
+  // ---- PHASE TRANSITIONS ----
+  const handleStart = useCallback(() => {
+    if (!permissionsReady) {
+      // Show permission gate first
+      dispatch({ type: 'SET_PHASE', payload: 'permissions' })
+      return
+    }
+    dispatch({ type: 'RESET' })
+    dispatch({ type: 'SET_PHASE', payload: 'sort' })
+  }, [dispatch, permissionsReady])
 
   const handleSortComplete = useCallback(() => {
     triggerEvent()
@@ -269,6 +287,10 @@ export default function App() {
           <>
             {state.phase === 'start' && (
               <StartScreen onStart={handleStart} />
+            )}
+
+            {state.phase === 'permissions' && (
+              <PermissionGate onReady={handlePermissionsReady} />
             )}
 
             {state.phase === 'sort' && (
