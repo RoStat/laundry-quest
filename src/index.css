@@ -142,24 +142,8 @@ body {
 .phase-fill { flex: 1; display: flex; flex-direction: column; }
 .phase-fill > .glass { flex: 1; }
 
-/* Portrait lock overlay — shown in landscape */
-@media (orientation: landscape) and (max-height: 500px) {
-  body::after {
-    content: '📱 Tourne ton téléphone en mode portrait !';
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Fredoka', sans-serif;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 2rem;
-  }
-}
+/* Portrait lock: handled via JS screen.orientation.lock() in PermissionGate.
+   No CSS overlay — it would block gyroscope gameplay. */
 
 /* Haptic feedback visual */
 .tap-flash {

@@ -21,35 +21,44 @@ export default function IroningPhase({ level, dispatch, toast, onComplete }) {
 
   // Iron track state
   const [cursorPos, setCursorPos] = useState(0)
-  const [zone, setZone] = useState({ left: 30, width: 25 })
-  const speed = useRef(1.8 + level * 0.4)
+  const speed = useRef(1.5 + level * 0.3) // Slightly slower for better playability
   const rafRef = useRef(null)
   const trackRef = useRef(null)
   const completedRef = useRef(false)
   const cursorPosRef = useRef(0)
 
+  // Use refs for zone to avoid stale closures in handleClick
+  const zoneRef = useRef({ left: 30, width: 25 })
+  const [zoneDisplay, setZoneDisplay] = useState({ left: 30, width: 25 })
+
   // Wrinkle progress for current garment (0-100)
   const [ironProgress, setIronProgress] = useState(0)
   const hitsForGarment = useRef(0)
-  const hitsNeeded = 3 // hits needed per garment
+  const hitsNeeded = 3
+
+  // Tolerance: extra % on each side of the green zone for forgiveness
+  const TOLERANCE = 5
 
   // Place green zone randomly
   const placeZone = useCallback(() => {
-    const w = Math.max(15, 28 - level * 2)
-    const left = 5 + Math.random() * (90 - w)
-    setZone({ left, width: w })
+    const w = Math.max(18, 30 - level * 2) // Wider zones for easier play
+    const left = 8 + Math.random() * (84 - w)
+    const newZone = { left, width: w }
+    zoneRef.current = newZone
+    setZoneDisplay(newZone)
   }, [level])
 
   // Animate cursor
   useEffect(() => {
     if (!running) return
 
-    let pos = 0
+    let pos = cursorPosRef.current || 0
     let dir = 1
 
     const animate = () => {
       pos += dir * speed.current
-      if (pos >= 100 || pos <= 0) dir *= -1
+      if (pos >= 100) { pos = 100; dir = -1 }
+      if (pos <= 0) { pos = 0; dir = 1 }
       cursorPosRef.current = pos
       setCursorPos(pos)
       rafRef.current = requestAnimationFrame(animate)
@@ -65,28 +74,37 @@ export default function IroningPhase({ level, dispatch, toast, onComplete }) {
     placeZone()
   }, [placeZone])
 
+  // Cooldown to prevent double-tap registering
+  const clickCooldown = useRef(false)
+
   const handleClick = useCallback(() => {
-    if (!running || completedRef.current) return
+    if (!running || completedRef.current || clickCooldown.current) return
+    clickCooldown.current = true
+    setTimeout(() => { clickCooldown.current = false }, 200)
 
     const pos = cursorPosRef.current
-    if (pos >= zone.left && pos <= zone.left + zone.width) {
-      // HIT — progress on current garment
+    const zone = zoneRef.current
+
+    // Hit check with tolerance
+    const hitLeft = zone.left - TOLERANCE
+    const hitRight = zone.left + zone.width + TOLERANCE
+
+    if (pos >= hitLeft && pos <= hitRight) {
+      // HIT
       hitsForGarment.current += 1
       const progress = Math.min(100, Math.round((hitsForGarment.current / hitsNeeded) * 100))
       setIronProgress(progress)
 
       dispatch({ type: 'ADD_SCORE', payload: 20 })
       dispatch({ type: 'INCREMENT_COMBO' })
-      vibrateSuccess()
+      vibrate(25) // Light haptic only
 
       if (hitsForGarment.current >= hitsNeeded) {
-        // Garment fully ironed
         dispatch({ type: 'IRON_HIT' })
         const nextGarment = currentGarment + 1
         toast(`✨ ${garments[currentGarment].name} repassé(e) !`, 'success')
 
         if (nextGarment >= total) {
-          // All done!
           completedRef.current = true
           setRunning(false)
           toast('👔 Repassage parfait !', 'success')
@@ -94,26 +112,24 @@ export default function IroningPhase({ level, dispatch, toast, onComplete }) {
           return
         }
 
-        // Next garment
         setTimeout(() => {
           setCurrentGarment(nextGarment)
           setIronProgress(0)
           hitsForGarment.current = 0
           placeZone()
-          speed.current += 0.3
+          speed.current += 0.2
         }, 400)
       } else {
         placeZone()
-        toast(`🔥 Bon coup ! ${hitsForGarment.current}/${hitsNeeded}`, 'info')
       }
     } else {
       // MISS
       dispatch({ type: 'ADD_SCORE', payload: -10 })
       dispatch({ type: 'RESET_COMBO' })
-      vibrateError()
-      toast('😬 Raté ! Vise la zone verte', 'error')
+      vibrate(40) // Slightly stronger for error
+      toast('😬 Raté !', 'error')
     }
-  }, [running, zone, dispatch, toast, placeZone, onComplete, total, currentGarment, garments, hitsNeeded])
+  }, [running, dispatch, toast, placeZone, onComplete, total, currentGarment, garments, hitsNeeded])
 
   // Swipe detection for mobile
   const handleSwipe = useCallback((direction) => {
@@ -167,117 +183,95 @@ export default function IroningPhase({ level, dispatch, toast, onComplete }) {
         ))}
       </div>
 
-      {/* Current garment display with wrinkle indicator */}
-      <div className="glass p-4 text-center flex-1 flex flex-col">
-        <div className="flex items-center justify-center gap-4 mb-3">
-          <div className="relative">
-            <span
-              className="text-5xl block transition-all duration-500"
+      {/* Current garment display */}
+      <div className="glass p-4 text-center flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <div className="relative">
+              <span
+                className="text-5xl block transition-all duration-500"
+                style={{
+                  filter: `blur(${Math.max(0, (100 - ironProgress) / 40)}px)`,
+                  transform: `scaleY(${0.9 + ironProgress * 0.001})`,
+                }}
+              >
+                {garment.emoji}
+              </span>
+              {ironProgress < 100 && (
+                <div className="absolute inset-0 pointer-events-none" style={{ opacity: (100 - ironProgress) / 100 }}>
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="absolute bg-white/20 rounded-full"
+                      style={{ width: '60%', height: '2px', top: `${25 + i * 25}%`, left: '20%', transform: `rotate(${-5 + i * 5}deg)` }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div>
+              <p className="font-semibold text-white/80 text-lg">{garment.name}</p>
+              <p className="text-sm text-white/40">{hitsForGarment.current}/{hitsNeeded} coups</p>
+            </div>
+          </div>
+
+          {/* Iron progress bar */}
+          <div className="w-full max-w-[300px] mx-auto mb-4">
+            <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-300"
+                style={{
+                  width: `${ironProgress}%`,
+                  background: ironProgress >= 100 ? 'var(--neon-green)' : 'linear-gradient(90deg, var(--neon-orange), var(--neon-yellow))',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* THE IRON TRACK — main interaction, taller for easier tapping */}
+        <div className="flex-1 flex flex-col justify-center">
+          <div
+            ref={trackRef}
+            onClick={handleClick}
+            className="w-full h-[80px] bg-[var(--accent)] rounded-2xl mx-auto relative overflow-hidden cursor-pointer active:brightness-110 border-2 border-white/10"
+            style={{ touchAction: 'none' }}
+          >
+            {/* Green target zone */}
+            <div
+              className="absolute top-0 h-full rounded-xl border-2 border-[var(--neon-green)]"
               style={{
-                filter: `blur(${Math.max(0, (100 - ironProgress) / 40)}px)`,
-                transform: `scaleY(${0.9 + ironProgress * 0.001})`,
+                left: `${zoneDisplay.left}%`,
+                width: `${zoneDisplay.width}%`,
+                background: 'rgba(0,255,135,0.15)',
+                boxShadow: '0 0 20px rgba(0,255,135,0.2)',
               }}
             >
-              {garment.emoji}
-            </span>
-            {/* Wrinkle lines that fade as you iron */}
-            {ironProgress < 100 && (
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ opacity: (100 - ironProgress) / 100 }}
-              >
-                {[...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute bg-white/20 rounded-full"
-                    style={{
-                      width: '60%',
-                      height: '2px',
-                      top: `${25 + i * 25}%`,
-                      left: '20%',
-                      transform: `rotate(${-5 + i * 5}deg)`,
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <p className="font-semibold text-white/80">{garment.name}</p>
-            <p className="text-xs text-white/40">{hitsForGarment.current}/{hitsNeeded} coups</p>
-          </div>
-        </div>
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm text-[var(--neon-green)] font-bold opacity-60">
+                ICI
+              </span>
+            </div>
 
-        {/* Iron progress bar for current garment */}
-        <div className="w-full max-w-[300px] mx-auto mb-4">
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+            {/* Cursor line */}
             <div
-              className="h-full rounded-full transition-all duration-300"
+              className="absolute top-0 w-[3px] h-full rounded-full"
               style={{
-                width: `${ironProgress}%`,
-                background: ironProgress >= 100
-                  ? 'var(--neon-green)'
-                  : 'linear-gradient(90deg, var(--neon-orange), var(--neon-yellow))',
+                left: `${cursorPos}%`,
+                background: 'var(--neon-yellow)',
+                boxShadow: '0 0 12px var(--neon-yellow), 0 0 24px rgba(255,190,11,0.3)',
               }}
             />
+
+            {/* Iron emoji */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-3xl pointer-events-none drop-shadow-lg"
+              style={{ left: `${cursorPos}%` }}
+            >
+              ♨️
+            </div>
           </div>
+
+          <p className="text-xs text-white/25 mt-3 text-center">
+            Tape ou swipe quand ♨️ est dans la zone verte
+          </p>
         </div>
-
-        {/* THE IRON TRACK — main interaction */}
-        <div
-          ref={trackRef}
-          onClick={handleClick}
-          className="w-full h-[70px] bg-[var(--accent)] rounded-2xl mx-auto relative overflow-hidden cursor-pointer active:brightness-110 border-2 border-white/10"
-          style={{ touchAction: 'none' }}
-        >
-          {/* Ironing board pattern */}
-          <div className="absolute inset-0 opacity-10">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute top-0 h-full w-[1px] bg-white/20"
-                style={{ left: `${i * 5}%` }}
-              />
-            ))}
-          </div>
-
-          {/* Green target zone */}
-          <div
-            className="absolute top-0 h-full rounded-xl border-2 border-[var(--neon-green)]"
-            style={{
-              left: `${zone.left}%`,
-              width: `${zone.width}%`,
-              background: 'rgba(0,255,135,0.12)',
-              boxShadow: '0 0 15px rgba(0,255,135,0.15)',
-            }}
-          >
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-[var(--neon-green)]/60 font-semibold">
-              ICI
-            </span>
-          </div>
-
-          {/* Cursor line */}
-          <div
-            className="absolute top-0 w-[3px] h-full rounded-full"
-            style={{
-              left: `${cursorPos}%`,
-              background: 'var(--neon-yellow)',
-              boxShadow: '0 0 12px var(--neon-yellow), 0 0 24px rgba(255,190,11,0.3)',
-            }}
-          />
-
-          {/* Iron emoji following cursor */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-3xl pointer-events-none drop-shadow-lg"
-            style={{ left: `${cursorPos}%` }}
-          >
-            ♨️
-          </div>
-        </div>
-
-        <p className="text-[0.65rem] text-white/25 mt-3">
-          📱 Tape ou swipe quand le fer ♨️ est dans la zone verte !
-        </p>
       </div>
     </div>
   )

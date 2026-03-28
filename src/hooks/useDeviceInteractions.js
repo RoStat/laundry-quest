@@ -11,15 +11,20 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 // ---- VIBRATION ----
-export function vibrate(pattern = 50) {
-  if ('vibrate' in navigator) {
+// Kept light to avoid overwhelming the user.
+// All durations in ms. Short = subtle, long = noticeable.
+let _hapticsEnabled = true
+export function setHapticsEnabled(v) { _hapticsEnabled = v }
+
+export function vibrate(pattern = 20) {
+  if (_hapticsEnabled && 'vibrate' in navigator) {
     navigator.vibrate(pattern)
   }
 }
 
-export function vibrateSuccess() { vibrate([30, 50, 30]) }
-export function vibrateError() { vibrate([100, 30, 100, 30, 100]) }
-export function vibrateTap() { vibrate(15) }
+export function vibrateSuccess() { vibrate(20) }           // single short tap
+export function vibrateError() { vibrate([40, 30, 40]) }   // double tap (lighter than before)
+export function vibrateTap() { vibrate(8) }                 // barely perceptible
 
 // ---- SHAKE DETECTION ----
 export function useShakeDetection(onShake, threshold = 25) {
@@ -38,7 +43,7 @@ export function useShakeDetection(onShake, threshold = 25) {
       if (dx + dy + dz > threshold) {
         if (!shakeTimeout.current) {
           onShake()
-          vibrate(80)
+          vibrate(30)
           shakeTimeout.current = setTimeout(() => {
             shakeTimeout.current = null
           }, 400)
