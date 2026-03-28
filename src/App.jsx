@@ -19,6 +19,7 @@ import DryingPhase from './components/game/DryingPhase'
 import FoldingPhase from './components/game/FoldingPhase'
 import IroningPhase from './components/game/IroningPhase'
 import ResultsScreen from './components/game/ResultsScreen'
+import PhaseProgress from './components/ui/PhaseProgress'
 
 // ============================================================
 // FUTURE FEATURES (prepared as architecture hooks)
@@ -191,8 +192,11 @@ export default function App() {
     }
   }, [state.lives, state.phase, dispatch, toast])
 
+  // Phases that show the progress stepper
+  const showStepper = screen === 'game' && ['sort','wash','dry','fold','iron'].includes(state.phase)
+
   return (
-    <div className="min-h-dvh">
+    <div className="game-container">
       <BubblesBackground />
 
       {/* Toast */}
@@ -210,10 +214,12 @@ export default function App() {
         onClose={() => dispatch({ type: 'HIDE_TIP' })}
       />
 
-      {/* Header */}
-      <div className="relative z-10 text-center pt-4 px-4">
+      {/* Header — compact during gameplay */}
+      <div className="relative z-10 text-center pt-3 px-4">
         <h1
-          className="font-bangers neon-gradient text-[clamp(2rem,6vw,3.5rem)] tracking-wider leading-none cursor-pointer"
+          className={`font-bangers neon-gradient tracking-wider leading-none cursor-pointer
+            ${showStepper ? 'text-[clamp(1.3rem,4vw,2rem)]' : 'text-[clamp(2rem,6vw,3.5rem)]'}
+          `}
           style={{ animation: 'pulse 3s ease-in-out infinite' }}
           onClick={screen === 'game' ? handleBackToMenu : undefined}
         >
@@ -223,11 +229,14 @@ export default function App() {
           <p className="text-xs text-white/30 mt-1 italic">Le simulateur de lessive le plus addictif au monde*</p>
         )}
         {screen === 'game' && gameMode === 'daily' && (
-          <p className="text-xs text-[var(--neon-yellow)] mt-1 font-semibold">📅 Lessive du Jour</p>
+          <p className="text-xs text-[var(--neon-yellow)] mt-0.5 font-semibold">📅 Lessive du Jour</p>
         )}
       </div>
 
-      {/* Stats bar — only during gameplay */}
+      {/* Phase progress stepper */}
+      {showStepper && <PhaseProgress currentPhase={state.phase} />}
+
+      {/* Stats bar — only during gameplay, compact */}
       {screen === 'game' && state.phase !== 'start' && state.phase !== 'results' && (
         <StatsBar
           score={state.score}
@@ -237,8 +246,8 @@ export default function App() {
         />
       )}
 
-      {/* Content area */}
-      <div className="relative z-10 max-w-2xl mx-auto px-4 pb-8">
+      {/* Content area — full width, fills remaining space */}
+      <div className="game-content relative z-10">
 
         {/* AUTH SCREEN */}
         {screen === 'auth' && (
